@@ -16,12 +16,6 @@ margin:0;
 h1{
 font-size:40px;
 margin-top:30px;
-animation:glow 2s infinite alternate;
-}
-
-@keyframes glow{
-from{ text-shadow:0 0 10px #fff;}
-to{ text-shadow:0 0 25px #00ffff;}
 }
 
 .gallery{
@@ -35,15 +29,13 @@ padding:30px;
 width:100%;
 border-radius:15px;
 cursor:pointer;
-transition:0.4s;
 box-shadow:0 0 10px #00ffff;
+transition:.3s;
 }
 
 .gallery img:hover{
 transform:scale(1.05);
 }
-
-/* FULL SCREEN VIEWER */
 
 .viewer{
 display:none;
@@ -53,10 +45,10 @@ left:0;
 width:100%;
 height:100%;
 background:black;
-z-index:999;
 flex-direction:column;
 justify-content:center;
 align-items:center;
+z-index:999;
 }
 
 .viewer img{
@@ -64,65 +56,65 @@ max-width:90%;
 max-height:70%;
 }
 
-/* BIG CLOSE BUTTON */
-
 .closeBtn{
 position:absolute;
 top:20px;
 right:40px;
-font-size:60px;
+font-size:70px;
 cursor:pointer;
 }
 
-/* PHOTO NAME */
-
-.photoName{
-font-size:28px;
-margin-top:15px;
-font-family:cursive;
-letter-spacing:2px;
-}
-
-/* LIKE COMMENT AREA */
+/* INSTAGRAM STYLE ACTIONS */
 
 .actions{
-margin-top:15px;
-font-size:22px;
+display:flex;
+align-items:center;
+gap:20px;
+font-size:35px;
+margin-top:20px;
 }
 
-.actions span{
-margin:0 15px;
+.likeBtn{
 cursor:pointer;
+transition:.3s;
 }
 
-/* COMMENT BOX */
+.likeBtn.liked{
+color:red;
+transform:scale(1.3);
+}
+
+/* COMMENT AREA */
 
 .commentBox{
-margin-top:15px;
+margin-top:20px;
 }
 
 .commentBox input{
-padding:8px;
-width:250px;
+padding:10px;
+width:300px;
+font-size:16px;
+}
+
+.commentBox button{
+padding:10px 20px;
+font-size:16px;
+cursor:pointer;
 }
 
 .commentList{
-margin-top:10px;
-max-height:150px;
+margin-top:15px;
+max-height:200px;
 overflow:auto;
+width:350px;
+text-align:left;
 }
 
 .comment{
 background:#111;
-padding:5px;
+padding:8px;
 margin:5px;
 border-radius:5px;
-}
-
-footer{
-margin-top:40px;
-padding:20px;
-background:#000;
 }
 
 </style>
@@ -132,8 +124,6 @@ background:#000;
 
 <h1>🔥 Shravan R Editing Portfolio 🔥</h1>
 
-<p>I am a Professional Video Editor</p>
-
 <h2>My Edits</h2>
 
 <div class="gallery">
@@ -142,16 +132,25 @@ background:#000;
 <img src="Poster ..jpg" onclick="openImg(this,'Poster')">
 <img src="Advitha 2.jpg" onclick="openImg(this,'Advitha 2')">
 <img src="Advitha 3.jpg" onclick="openImg(this,'Advitha 3')">
-
 <img src="Advitha 4.jpg" onclick="openImg(this,'Advitha 4')">
 <img src="BMW.jpg" onclick="openImg(this,'BMW Edit')">
 <img src="CC BEND ITT.jpg" onclick="openImg(this,'CC BEND')">
 <img src="Card.jpg" onclick="openImg(this,'Card Design')">
+<img src="Janna Ortega.jpg" onclick="openImg(this,'Jenna Ortega')">
+<img src="Leonor queen.jpg" onclick="openImg(this,'Leonor Queen')">
+<img src="Manish R.jpg" onclick="openImg(this,'Manish R')">
+<img src="Modi ji.jpg" onclick="openImg(this,'Modi Ji')">
+<img src="Pooja Maa.jpg" onclick="openImg(this,'Pooja Maa')">
+<img src="Prabash.jpg" onclick="openImg(this,'Prabhas')">
+<img src="Posters.jpg" onclick="openImg(this,'Posters')">
+<img src="SAMANTA.jpg" onclick="openImg(this,'Samanta')">
+<img src="Sunil Anna .jpg" onclick="openImg(this,'Sunil Anna')">
+<img src="Travel poster.jpg" onclick="openImg(this,'Travel Poster')">
+<img src="invet poster..... 1 copy.jpg" onclick="openImg(this,'Invite Poster')">
+<img src="tamnail ..jpg" onclick="openImg(this,'Thumbnail')">
+<img src="text disegn 2.jpg" onclick="openImg(this,'Text Design')">
 
 </div>
-
-
-<!-- FULLSCREEN -->
 
 <div class="viewer" id="viewer">
 
@@ -159,59 +158,60 @@ background:#000;
 
 <img id="fullImg">
 
-<div class="photoName" id="photoName"></div>
+<h2 id="photoName"></h2>
 
 <div class="actions">
-<span onclick="likePhoto()">❤️</span>
+
+<span id="likeBtn" class="likeBtn" onclick="likePhoto()">❤️</span>
 <span id="likeCount">0</span>
 
 <span>💬</span>
 <span id="commentCount">0</span>
+
 </div>
 
 <div class="commentBox">
 
-<input type="text" id="commentInput" placeholder="Write comment...">
+<input id="commentInput" placeholder="Write comment">
 
 <button onclick="addComment()">Send</button>
 
 </div>
 
-<div class="commentList" id="commentList"></div>
+<div id="commentList" class="commentList"></div>
 
 </div>
 
-<footer>
-<p>© 2026 Shravan R</p>
-</footer>
-
 <script>
 
-let liked=false
 let likeCount=0
 let commentCount=0
 
 function openImg(img,name){
 
-document.getElementById("viewer").style.display="flex"
-document.getElementById("fullImg").src=img.src
-document.getElementById("photoName").innerText=name
+viewer.style.display="flex"
+fullImg.src=img.src
+photoName.innerText=name
 
 }
 
 function closeImg(){
-document.getElementById("viewer").style.display="none"
+
+viewer.style.display="none"
+
 }
 
 function likePhoto(){
 
-if(!liked){
+let btn=document.getElementById("likeBtn")
+
+if(!btn.classList.contains("liked")){
 
 likeCount++
+likeCountText=document.getElementById("likeCount")
+likeCountText.innerText=likeCount
 
-document.getElementById("likeCount").innerText=likeCount
-
-liked=true
+btn.classList.add("liked")
 
 }
 
@@ -219,16 +219,12 @@ liked=true
 
 function addComment(){
 
-let input=document.getElementById("commentInput")
-
-let text=input.value
+let text=document.getElementById("commentInput").value
 
 if(text=="") return
 
 let div=document.createElement("div")
-
 div.className="comment"
-
 div.innerText=text
 
 document.getElementById("commentList").appendChild(div)
@@ -237,7 +233,7 @@ commentCount++
 
 document.getElementById("commentCount").innerText=commentCount
 
-input.value=""
+document.getElementById("commentInput").value=""
 
 }
 
