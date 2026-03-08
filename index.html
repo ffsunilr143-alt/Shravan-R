@@ -1,48 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Shravan R Website</title>
+<title>Shravan R Portfolio</title>
 
 <style>
+
 body{
-background:black;
+background:linear-gradient(45deg,#000000,#111111,#000000);
 color:white;
 font-family:Arial;
 text-align:center;
+margin:0;
+}
+
+h1{
+font-size:40px;
+margin-top:30px;
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{ text-shadow:0 0 10px #fff;}
+to{ text-shadow:0 0 25px #00ffff;}
 }
 
 .gallery{
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
-gap:20px;
+gap:25px;
+padding:30px;
 }
 
 .gallery img{
-width:250px;
-border-radius:10px;
-box-shadow:0 0 10px white;
+width:260px;
+border-radius:15px;
+transition:0.4s;
+box-shadow:0 0 10px #00ffff;
+}
+
+.gallery img:hover{
+transform:scale(1.1);
+box-shadow:0 0 25px #00ffff;
+}
+
+footer{
+margin-top:40px;
+padding:20px;
+background:#000;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<h1>Welcome to Shravan R Website</h1>
-<p>I am a Video Editor</p>
+<h1>🔥 Shravan R Editing Portfolio 🔥</h1>
+
+<p>I am a Professional Video Editor</p>
 
 <h2>My Edits</h2>
 
 <div class="gallery">
 
 <img src="Advitha 1.jpg">
-<img src="prabash.jpg">
-<img src="SAMANTA.jpg">
-<img src="Sunil Anna.jpeg">
+
+<!-- New photos add here -->
 
 </div>
+
+<footer>
+<p>© 2026 Shravan R</p>
+</footer>
 
 </body>
 </html>
