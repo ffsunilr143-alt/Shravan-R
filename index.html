@@ -6,7 +6,7 @@
 <style>
 
 body{
-background:linear-gradient(45deg,#000000,#111111,#000000);
+background:linear-gradient(45deg,#000,#111,#000);
 color:white;
 font-family:Arial;
 text-align:center;
@@ -25,28 +25,25 @@ to{ text-shadow:0 0 25px #00ffff;}
 }
 
 .gallery{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
+display:grid;
+grid-template-columns:repeat(4,1fr);
 gap:25px;
 padding:30px;
 }
 
 .gallery img{
-max-width:300px;
-height:auto;
+width:100%;
 border-radius:15px;
+cursor:pointer;
 transition:0.4s;
 box-shadow:0 0 10px #00ffff;
-cursor:pointer;
 }
 
 .gallery img:hover{
 transform:scale(1.05);
-box-shadow:0 0 25px #00ffff;
 }
 
-/* Fullscreen viewer */
+/* FULL SCREEN VIEWER */
 
 .viewer{
 display:none;
@@ -55,24 +52,71 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.95);
+background:black;
+z-index:999;
+flex-direction:column;
 justify-content:center;
 align-items:center;
-z-index:999;
 }
 
 .viewer img{
-max-width:95%;
-max-height:95%;
+max-width:90%;
+max-height:70%;
 }
 
-.viewer span{
+/* BIG CLOSE BUTTON */
+
+.closeBtn{
 position:absolute;
 top:20px;
 right:40px;
-font-size:40px;
+font-size:60px;
 cursor:pointer;
-color:white;
+}
+
+/* PHOTO NAME */
+
+.photoName{
+font-size:28px;
+margin-top:15px;
+font-family:cursive;
+letter-spacing:2px;
+}
+
+/* LIKE COMMENT AREA */
+
+.actions{
+margin-top:15px;
+font-size:22px;
+}
+
+.actions span{
+margin:0 15px;
+cursor:pointer;
+}
+
+/* COMMENT BOX */
+
+.commentBox{
+margin-top:15px;
+}
+
+.commentBox input{
+padding:8px;
+width:250px;
+}
+
+.commentList{
+margin-top:10px;
+max-height:150px;
+overflow:auto;
+}
+
+.comment{
+background:#111;
+padding:5px;
+margin:5px;
+border-radius:5px;
 }
 
 footer{
@@ -87,41 +131,54 @@ background:#000;
 <body>
 
 <h1>🔥 Shravan R Editing Portfolio 🔥</h1>
+
 <p>I am a Professional Video Editor</p>
 
 <h2>My Edits</h2>
 
 <div class="gallery">
 
-<img src="Advitha 1.jpg" onclick="openImg(this)">
-<img src="Poster ..jpg" onclick="openImg(this)">
-<img src="Advitha 2.jpg" onclick="openImg(this)">
-<img src="Advitha 3.jpg" onclick="openImg(this)">
-<img src="Advitha 4.jpg" onclick="openImg(this)">
-<img src="BMW.jpg" onclick="openImg(this)">
-<img src="CC BEND ITT.jpg" onclick="openImg(this)">
-<img src="Card.jpg" onclick="openImg(this)">
-<img src="Janna Ortega.jpg" onclick="openImg(this)">
-<img src="Leonor queen.jpg" onclick="openImg(this)">
-<img src="Manish R.jpg" onclick="openImg(this)">
-<img src="Modi ji.jpg" onclick="openImg(this)">
-<img src="Pooja Maa.jpg" onclick="openImg(this)">
-<img src="Prabash.jpg" onclick="openImg(this)">
-<img src="Posters.jpg" onclick="openImg(this)">
-<img src="SAMANTA.jpg" onclick="openImg(this)">
-<img src="Sunil Anna .jpg" onclick="openImg(this)">
-<img src="Travel poster.jpg" onclick="openImg(this)">
-<img src="invet poster..... 1 copy.jpg" onclick="openImg(this)">
-<img src="tamnail ..jpg" onclick="openImg(this)">
-<img src="text disegn 2.jpg" onclick="openImg(this)">
+<img src="Advitha 1.jpg" onclick="openImg(this,'Advitha 1')">
+<img src="Poster ..jpg" onclick="openImg(this,'Poster')">
+<img src="Advitha 2.jpg" onclick="openImg(this,'Advitha 2')">
+<img src="Advitha 3.jpg" onclick="openImg(this,'Advitha 3')">
+
+<img src="Advitha 4.jpg" onclick="openImg(this,'Advitha 4')">
+<img src="BMW.jpg" onclick="openImg(this,'BMW Edit')">
+<img src="CC BEND ITT.jpg" onclick="openImg(this,'CC BEND')">
+<img src="Card.jpg" onclick="openImg(this,'Card Design')">
 
 </div>
 
-<!-- Fullscreen Image Viewer -->
+
+<!-- FULLSCREEN -->
 
 <div class="viewer" id="viewer">
-<span onclick="closeImg()">×</span>
+
+<div class="closeBtn" onclick="closeImg()">×</div>
+
 <img id="fullImg">
+
+<div class="photoName" id="photoName"></div>
+
+<div class="actions">
+<span onclick="likePhoto()">❤️</span>
+<span id="likeCount">0</span>
+
+<span>💬</span>
+<span id="commentCount">0</span>
+</div>
+
+<div class="commentBox">
+
+<input type="text" id="commentInput" placeholder="Write comment...">
+
+<button onclick="addComment()">Send</button>
+
+</div>
+
+<div class="commentList" id="commentList"></div>
+
 </div>
 
 <footer>
@@ -130,13 +187,58 @@ background:#000;
 
 <script>
 
-function openImg(img){
-document.getElementById("viewer").style.display="flex";
-document.getElementById("fullImg").src=img.src;
+let liked=false
+let likeCount=0
+let commentCount=0
+
+function openImg(img,name){
+
+document.getElementById("viewer").style.display="flex"
+document.getElementById("fullImg").src=img.src
+document.getElementById("photoName").innerText=name
+
 }
 
 function closeImg(){
-document.getElementById("viewer").style.display="none";
+document.getElementById("viewer").style.display="none"
+}
+
+function likePhoto(){
+
+if(!liked){
+
+likeCount++
+
+document.getElementById("likeCount").innerText=likeCount
+
+liked=true
+
+}
+
+}
+
+function addComment(){
+
+let input=document.getElementById("commentInput")
+
+let text=input.value
+
+if(text=="") return
+
+let div=document.createElement("div")
+
+div.className="comment"
+
+div.innerText=text
+
+document.getElementById("commentList").appendChild(div)
+
+commentCount++
+
+document.getElementById("commentCount").innerText=commentCount
+
+input.value=""
+
 }
 
 </script>
